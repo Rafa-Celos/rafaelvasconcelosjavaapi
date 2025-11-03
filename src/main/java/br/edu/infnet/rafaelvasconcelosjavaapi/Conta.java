@@ -1,0 +1,44 @@
+package br.edu.infnet.rafaelvasconcelosjavaapi;
+
+public class Conta {
+    public String nome;
+    public int conta;
+    public double valorDeposito;
+    public double valorSaque;
+    public boolean poupanca;
+
+    private double realizarDeposito() {
+        return valorDeposito;
+    }
+
+    private double realizarSaque() {
+        if (valorSaque <= 0 || valorSaque > valorDeposito) {
+            System.out.println("Saldo negativo ou insuficiente");
+            return 0;
+        }
+        return valorSaque;
+    }
+
+    private double calcularSaldo() {
+        return valorDeposito - realizarSaque();
+    }
+/*
+    private String tipoConta() {
+        if (true) {
+            return "Poupança";
+        }
+        if (false) {
+            return "Corrente";
+        } else
+            return "Tipo inválido";
+    }
+*/
+    public void exibirExtrato() {
+        System.out.println("Nome do titular: " + nome);
+        System.out.println("Número da conta: " + conta);
+        //System.out.println("Tipo de conta: " + tipoConta());
+        System.out.println("Valor do deposito: R$ " + realizarDeposito());
+        System.out.println("Valor da saque: R$ " + valorSaque);
+        System.out.println("Valor do saldo: R$ " + calcularSaldo());
+    }
+}
