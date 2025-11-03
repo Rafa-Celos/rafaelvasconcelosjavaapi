@@ -13,7 +13,7 @@ public class Conta {
 
     private double realizarSaque() {
         if (valorSaque <= 0 || valorSaque > valorDeposito) {
-            System.out.println("Saldo negativo ou insuficiente");
+            System.out.println("Saldo inválido, negativo ou insuficiente");
             return 0;
         }
         return valorSaque;
@@ -22,21 +22,20 @@ public class Conta {
     private double calcularSaldo() {
         return valorDeposito - realizarSaque();
     }
-/*
-    private String tipoConta() {
-        if (true) {
+
+    private String tipoConta(boolean poupanca) {
+        if (poupanca) {
             return "Poupança";
         }
-        if (false) {
+        else {
             return "Corrente";
-        } else
-            return "Tipo inválido";
+        }
     }
-*/
+
     public void exibirExtrato() {
         System.out.println("Nome do titular: " + nome);
         System.out.println("Número da conta: " + conta);
-        //System.out.println("Tipo de conta: " + tipoConta());
+        System.out.println("Tipo de conta:  " + tipoConta(poupanca));
         System.out.println("Valor do deposito: R$ " + realizarDeposito());
         System.out.println("Valor da saque: R$ " + valorSaque);
         System.out.println("Valor do saldo: R$ " + calcularSaldo());

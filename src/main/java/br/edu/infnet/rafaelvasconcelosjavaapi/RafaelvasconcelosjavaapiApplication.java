@@ -32,18 +32,23 @@ public class RafaelvasconcelosjavaapiApplication {
             }
         }
 
-        System.out.println("Informe o tipo de conta: [1] Poupança ou [2] Corrente: ");
-        String tipoConta = entrada.next();
+        int opcao = 0;
+        do {
+            System.out.println("Informe o tipo de conta: [1] Poupança ou [2] Corrente: ");
+            String tipoConta = entrada.next();
 
-        if (tipoConta.equals("1")) {
-            conta.poupanca = true;
-            System.out.println("Conta poupança.");
-        } else if (tipoConta.equals("2")) {
-            conta.poupanca = false;
-            System.out.println("Conta corrente.");
-        } else {
-            System.out.println("Tipo de conta invalida");
-        }
+            if (tipoConta.equals("1")) {
+                conta.poupanca = true;
+                System.out.println("Conta poupança.");
+                opcao = 1;
+            } else if (tipoConta.equals("2")) {
+                conta.poupanca = false;
+                System.out.println("Conta corrente.");
+                opcao = 1;
+            } else {
+                System.out.println("Tipo de conta invalida");
+            }
+        } while (opcao == 0);
 
 
         System.out.println("Informe o valor do deposito: ");
