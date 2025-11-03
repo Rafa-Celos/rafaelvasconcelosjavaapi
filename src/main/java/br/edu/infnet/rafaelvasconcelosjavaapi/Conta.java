@@ -23,7 +23,7 @@ public class Conta {
         return valorDeposito - realizarSaque();
     }
 
-    private String tipoConta(boolean poupanca) {
+    private String definirTipoConta(boolean poupanca) {
         if (poupanca) {
             return "Poupança";
         }
@@ -35,7 +35,7 @@ public class Conta {
     public void exibirExtrato() {
         System.out.println("Nome do titular: " + nome);
         System.out.println("Número da conta: " + conta);
-        System.out.println("Tipo de conta:  " + tipoConta(poupanca));
+        System.out.println("Tipo de conta:  " + definirTipoConta(poupanca));
         System.out.println("Valor do deposito: R$ " + realizarDeposito());
         System.out.println("Valor da saque: R$ " + valorSaque);
         System.out.println("Valor do saldo: R$ " + calcularSaldo());

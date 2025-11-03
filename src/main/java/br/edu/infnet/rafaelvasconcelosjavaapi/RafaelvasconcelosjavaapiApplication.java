@@ -49,8 +49,7 @@ public class RafaelvasconcelosjavaapiApplication {
                 System.out.println("Tipo de conta invalida");
             }
         } while (opcao == 0);
-
-
+        
         System.out.println("Informe o valor do deposito: ");
         if (!entrada.hasNextDouble()) {
             System.out.println("Valor de depósito inválido");
