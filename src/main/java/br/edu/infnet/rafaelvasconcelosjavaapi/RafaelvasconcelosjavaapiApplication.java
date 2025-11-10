@@ -19,6 +19,27 @@ public class RafaelvasconcelosjavaapiApplication {
         System.out.println("Informe o nome do titular da conta: ");
         conta.nome = entrada.nextLine();
 
+
+        int numeroConta;
+        boolean numeroValido = false;
+        while (!numeroValido) {
+            System.out.println("Informe o número da conta: ");
+
+            if (!entrada.hasNextInt()) {
+                System.out.println("Número de conta invalido");
+                entrada.next();
+                continue;
+            }
+            numeroConta = entrada.nextInt();
+
+            if (numeroConta <= 0) {
+                System.out.println("Número de conta não pode ser zero ou negativo");
+            } else {
+                conta.conta = numeroConta;
+                numeroValido = true;
+            }
+        }
+        /*
         System.out.println("Informe o número da conta: ");
         if (!entrada.hasNextInt()) {
             System.out.println("Número de conta invalido");
@@ -31,8 +52,30 @@ public class RafaelvasconcelosjavaapiApplication {
                 conta.conta = numeroConta;
             }
         }
+         */
 
-        int opcao = 0;
+        for(int tentativas = 0; tentativas < 3; tentativas++) {
+            System.out.println("Informe o tipo de conta: [1] Poupança ou [2] Corrente: ");
+            String tipoConta = entrada.next();
+
+            if (tipoConta.equals("1")) {
+                conta.poupanca = true;
+                System.out.println("Conta poupança.");
+                break;
+            } else if (tipoConta.equals("2")) {
+                conta.poupanca = false;
+                System.out.println("Conta corrente.");
+                break;
+            } else if (tentativas == 2) {
+                System.out.println("Você não digitou um tipo de conta válida, o programa será encerrado.");
+                System.exit(0);
+            } else {
+                System.out.println("Tipo de conta inválida, tente novamente.");
+            }
+        }
+
+        /*
+        int opcaoTipoConta = 0;
         do {
             System.out.println("Informe o tipo de conta: [1] Poupança ou [2] Corrente: ");
             String tipoConta = entrada.next();
@@ -40,39 +83,77 @@ public class RafaelvasconcelosjavaapiApplication {
             if (tipoConta.equals("1")) {
                 conta.poupanca = true;
                 System.out.println("Conta poupança.");
-                opcao = 1;
+                opcaoTipoConta = 0;
             } else if (tipoConta.equals("2")) {
                 conta.poupanca = false;
                 System.out.println("Conta corrente.");
-                opcao = 1;
+                opcaoTipoConta = 0;
             } else {
-                System.out.println("Tipo de conta invalida");
+                System.out.println("Tipo de conta invalida, tente novamente.");
+                opcaoTipoConta = opcaoTipoConta + 1;
+                if (opcaoTipoConta == 3) {
+                    System.out.println("Você não digitou um tipo de conta válido, o programa será encerrado.");
+                    System.exit(0);
+                }
             }
-        } while (opcao == 0);
-        
-        System.out.println("Informe o valor do deposito: ");
-        if (!entrada.hasNextDouble()) {
-            System.out.println("Valor de depósito inválido");
-            entrada.next();
-        } else {
-            double valorDeposito = entrada.nextDouble();
-            if (valorDeposito <= 0) {
-                System.out.println("Valor de depósito não pode ser zero ou negativo");
+        } while (opcaoTipoConta != 0);
+
+         */
+
+        int opcao = 0;
+
+        do {
+            System.out.println("\nDigite uma opção: ");
+            System.out.println("[1] - Depositar");
+            System.out.println("[2] - Sacar");
+            System.out.println("[3] - Exibir extrato");
+            System.out.println("[0] - Sair");
+
+            if (entrada.hasNextInt()) {
+                opcao = entrada.nextInt();
+                entrada.nextLine();
             } else {
-                conta.valorDeposito = valorDeposito;
+                System.out.println("Opção inválida, digite um número válido.");
+                continue;
             }
-        }
 
-        System.out.println("Informe o valor do saque: ");
-        if  (!entrada.hasNextDouble()) {
-            System.out.println("Valor de saque inválido");
-            entrada.next();
-        } else {
-            conta.valorSaque = entrada.nextDouble();
-        }
+            switch (opcao) {
+                case 1:
+                    System.out.println("Informe o valor do deposito: ");
+                    if (!entrada.hasNextDouble()) {
+                        System.out.println("Valor de depósito inválido");
+                        entrada.next();
+                    } else {
+                        double valorDeposito = entrada.nextDouble();
+                        if (valorDeposito <= 0) {
+                            System.out.println("Valor de depósito não pode ser zero ou negativo.");
+                        } else {
+                            conta.valorDeposito += valorDeposito;
+                        }
+                    }
+                    break;
+                case 2:
+                    System.out.println("Informe o valor do saque: ");
+                    if (!entrada.hasNextDouble()) {
+                        System.out.println("Valor de saque inválido");
+                        entrada.next();
+                    } else {
+                        conta.valorSaque = entrada.nextDouble();
+                    }
+                    break;
+                case 3: conta.exibirExtrato();
+                    break;
+                case 0:
+                    System.out.println("Encerrando.");
+                    break;
+                default:
+                    System.out.println("Opção invalida, digite uma opção válida.");
+            }
 
-        conta.exibirExtrato();
+        } while (opcao != 0);
 
+
+        entrada.close();
         System.out.println("Finalizando...");
 
     }
