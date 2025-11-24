@@ -9,61 +9,79 @@ import java.util.Scanner;
 public class RafaelvasconcelosjavaapiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RafaelvasconcelosjavaapiApplication.class, args);
+        SpringApplication.run(RafaelvasconcelosjavaapiApplication.class, args);
 
         System.out.println("Iniciando...");
 
         Scanner entrada = new Scanner(System.in);
         Conta conta = new Conta();
 
+
         System.out.println("Informe o nome do titular da conta: ");
-        conta.nome = entrada.nextLine();
+        String nomeCliente = entrada.nextLine();
+        Cliente cliente = new Cliente(nomeCliente);
+
+        System.out.println("Informe o CPF do titular da conta: ");
+        String cpfCliente = entrada.nextLine();
+        cliente.setCpf(cpfCliente);
+
+        double rendaCliente;
+        System.out.println("Informe a renda do titular da conta: ");
+        if (!entrada.hasNextDouble()) {
+            System.out.println("Renda inválida.");
+            entrada.next();
+        } else {
+            rendaCliente = entrada.nextDouble();
+            if (rendaCliente <= 0) {
+                System.out.println("Cliente sem renda.");
+                rendaCliente = 0;
+            }
+
+            cliente.setRenda(rendaCliente);
+            conta.verificarEmprestimo(cliente);
+        }
 
 
         int numeroConta;
         boolean numeroValido = false;
         while (!numeroValido) {
-            System.out.println("Informe o número da conta: ");
+            System.out.println("Informe o número da conta com 5 dígitos: ");
 
             if (!entrada.hasNextInt()) {
                 System.out.println("Número de conta invalido");
                 entrada.next();
                 continue;
             }
-            numeroConta = entrada.nextInt();
 
+            numeroConta = entrada.nextInt();
             if (numeroConta <= 0) {
                 System.out.println("Número de conta não pode ser zero ou negativo");
-            } else {
-                conta.conta = numeroConta;
-                numeroValido = true;
+                continue;
             }
-        }
-        /*
-        System.out.println("Informe o número da conta: ");
-        if (!entrada.hasNextInt()) {
-            System.out.println("Número de conta invalido");
-            entrada.next();
-        } else {
-            int numeroConta = entrada.nextInt();
-            if (numeroConta <= 0) {
-                System.out.println("Número de conta não pode ser zero ou negativo");
-            } else {
-                conta.conta = numeroConta;
+
+            String contaStr = String.valueOf(numeroConta);
+
+            if (contaStr.length() != 5) {
+                System.out.println("A conta deve ter exatamente 5 dígitos.");
+                continue;
             }
+
+            conta.setConta(numeroConta);
+            numeroValido = true;
+
         }
-         */
+
 
         for(int tentativas = 0; tentativas < 3; tentativas++) {
             System.out.println("Informe o tipo de conta: [1] Poupança ou [2] Corrente: ");
             String tipoConta = entrada.next();
 
             if (tipoConta.equals("1")) {
-                conta.poupanca = true;
+                conta.setTipoConta(Conta.TipoConta.POUPANCA);
                 System.out.println("Conta poupança.");
                 break;
             } else if (tipoConta.equals("2")) {
-                conta.poupanca = false;
+                conta.setTipoConta(Conta.TipoConta.CORRENTE);
                 System.out.println("Conta corrente.");
                 break;
             } else if (tentativas == 2) {
@@ -73,32 +91,7 @@ public class RafaelvasconcelosjavaapiApplication {
                 System.out.println("Tipo de conta inválida, tente novamente.");
             }
         }
-
-        /*
-        int opcaoTipoConta = 0;
-        do {
-            System.out.println("Informe o tipo de conta: [1] Poupança ou [2] Corrente: ");
-            String tipoConta = entrada.next();
-
-            if (tipoConta.equals("1")) {
-                conta.poupanca = true;
-                System.out.println("Conta poupança.");
-                opcaoTipoConta = 0;
-            } else if (tipoConta.equals("2")) {
-                conta.poupanca = false;
-                System.out.println("Conta corrente.");
-                opcaoTipoConta = 0;
-            } else {
-                System.out.println("Tipo de conta invalida, tente novamente.");
-                opcaoTipoConta = opcaoTipoConta + 1;
-                if (opcaoTipoConta == 3) {
-                    System.out.println("Você não digitou um tipo de conta válido, o programa será encerrado.");
-                    System.exit(0);
-                }
-            }
-        } while (opcaoTipoConta != 0);
-
-         */
+        cliente.setConta(conta);
 
         int opcao = 0;
 
@@ -124,12 +117,7 @@ public class RafaelvasconcelosjavaapiApplication {
                         System.out.println("Valor de depósito inválido");
                         entrada.next();
                     } else {
-                        double valorDeposito = entrada.nextDouble();
-                        if (valorDeposito <= 0) {
-                            System.out.println("Valor de depósito não pode ser zero ou negativo.");
-                        } else {
-                            conta.valorDeposito += valorDeposito;
-                        }
+                        conta.depositar(entrada.nextDouble());
                     }
                     break;
                 case 2:
@@ -138,10 +126,11 @@ public class RafaelvasconcelosjavaapiApplication {
                         System.out.println("Valor de saque inválido");
                         entrada.next();
                     } else {
-                        conta.valorSaque = entrada.nextDouble();
+                        conta.sacar(entrada.nextDouble());
                     }
                     break;
-                case 3: conta.exibirExtrato();
+                case 3:
+                    System.out.println(cliente.toString());
                     break;
                 case 0:
                     System.out.println("Encerrando.");
