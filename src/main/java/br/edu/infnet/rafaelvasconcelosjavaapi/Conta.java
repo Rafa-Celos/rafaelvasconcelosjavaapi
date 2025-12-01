@@ -8,6 +8,7 @@ public class Conta {
         POUPANCA,
         CORRENTE
     }
+    private boolean contaAtiva;
     private TipoConta tipoConta;
 
 
@@ -39,6 +40,14 @@ public class Conta {
         this.tipoConta = tipoConta;
     }
 
+    public boolean isContaAtiva() {
+        return contaAtiva;
+    }
+
+    public void setContaAtiva(boolean contaAtiva) {
+        this.contaAtiva = contaAtiva;
+    }
+
     public void verificarEmprestimo(Cliente cliente) {
         verificarEmprestimo(cliente.getRenda());
     }
@@ -50,9 +59,9 @@ public class Conta {
     }
 
     public void depositar(double valor) {
-        if (valor <= 0)
+        if (valor <= 0 && !this.isContaAtiva())
         {
-            System.out.println("Valor de deposito inválido");
+            System.out.println("Valor de deposito inválido ou conta inativa.");
             return;
         }
         this.saldo += valor;
