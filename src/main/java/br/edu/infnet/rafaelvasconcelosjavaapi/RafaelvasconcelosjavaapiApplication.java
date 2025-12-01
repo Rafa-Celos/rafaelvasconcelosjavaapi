@@ -3,6 +3,7 @@ package br.edu.infnet.rafaelvasconcelosjavaapi;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.Random;
 import java.util.Scanner;
 
 @SpringBootApplication
@@ -24,6 +25,7 @@ public class RafaelvasconcelosjavaapiApplication {
         System.out.println("Informe o CPF do titular da conta: ");
         String cpfCliente = entrada.nextLine();
         cliente.setCpf(cpfCliente);
+        cliente.setClienteAtivo(true);
 
         double rendaCliente;
         System.out.println("Informe a renda do titular da conta: ");
@@ -32,11 +34,6 @@ public class RafaelvasconcelosjavaapiApplication {
             entrada.next();
         } else {
             rendaCliente = entrada.nextDouble();
-            if (rendaCliente <= 0) {
-                System.out.println("Cliente sem renda.");
-                rendaCliente = 0;
-            }
-
             cliente.setRenda(rendaCliente);
             conta.verificarEmprestimo(cliente);
         }
@@ -70,6 +67,11 @@ public class RafaelvasconcelosjavaapiApplication {
             numeroValido = true;
 
         }
+
+        int id;
+        Random gerador = new Random();
+        id = gerador.nextInt(100000);
+        cliente.setIdCliente(id);
 
 
         for(int tentativas = 0; tentativas < 3; tentativas++) {
