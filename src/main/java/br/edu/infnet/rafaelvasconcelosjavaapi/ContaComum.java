@@ -1,54 +1,62 @@
 package br.edu.infnet.rafaelvasconcelosjavaapi;
 
-public class Conta {
+import br.edu.infnet.rafaelvasconcelosjavaapi.model.domain.Conta;
+import interfaces.Impresso;
+import org.springframework.lang.NonNull;
 
-    private int conta;
-    private double saldo;
+public class ContaComum extends Conta implements Impresso{
+
     public enum TipoConta {
         POUPANCA,
         CORRENTE
     }
-    private boolean contaAtiva;
-    private TipoConta tipoConta;
+    public TipoConta tipoConta;
 
-
-    public Conta() {
+    public ContaComum() {
     }
 
-    public Conta(int conta) {
+    public ContaComum(int conta) {
         this.conta = conta;
     }
 
-    public Conta(int conta, TipoConta tipoConta) {
+    public ContaComum(int conta, TipoConta tipoConta) {
         this(conta);
         this.tipoConta = tipoConta;
     }
 
     public int getConta() {
-        return conta;
+        return super.getConta();
     }
 
     public void setConta(int conta) {
-        this.conta = conta;
+        super.setConta(conta);
     }
 
     public double getSaldo() {
-        return saldo;
+        return super.getSaldo();
     }
 
     public void setTipoConta(TipoConta tipoConta) {
         this.tipoConta = tipoConta;
     }
 
-    public boolean isContaAtiva() {
+    @Override
+    protected boolean isContaAtiva() {
         return contaAtiva;
     }
 
     public void setContaAtiva(boolean contaAtiva) {
-        this.contaAtiva = contaAtiva;
+        super.setContaAtiva(contaAtiva);
     }
 
-    public void verificarEmprestimo(Cliente cliente) {
+    @Override
+    public double calcularSaldo() {
+        System.out.print("Saldo conta comum: R$ ");
+        return getSaldo();
+    }
+
+    // Método sobrecarregado
+    public void verificarEmprestimo(@NonNull Cliente cliente) {
         verificarEmprestimo(cliente.getRenda());
     }
 
@@ -58,6 +66,7 @@ public class Conta {
         }
     }
 
+    @Override
     public void depositar(double valor) {
         if (valor <= 0 && !this.isContaAtiva())
         {
@@ -68,6 +77,7 @@ public class Conta {
         System.out.printf("R$ %.2f depositado com sucesso.%n", valor);
     }
 
+    @Override
     public void sacar(double valor) {
         if (valor <= 0) {
             System.out.println("Valor do saque deve ser maior que zero.");
@@ -85,6 +95,10 @@ public class Conta {
         return tipoConta.name();
     }
 
+    @Override
+    public void imprimir() {
+        System.out.println(this.toString());
+    }
 
     @Override
     public String toString() {
@@ -97,15 +111,4 @@ public class Conta {
                 "\n=---------------------------------------------------------=";
 
     }
-
-
-    /*
-    Utilizar um construtor para fazer uma modificação e utilizá-lo nas chamadas.
-    Ex.: public Funcionario(String nome){
-            this();
-            this.nome = nome.toUpperCase();
-
-            ou fazer no getNome (pode inclusive usar na classe)
-     */
-
 }

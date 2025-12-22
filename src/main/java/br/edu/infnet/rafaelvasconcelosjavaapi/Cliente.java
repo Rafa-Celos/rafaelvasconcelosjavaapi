@@ -1,25 +1,19 @@
 package br.edu.infnet.rafaelvasconcelosjavaapi;
 
-public class Cliente {
+public final class Cliente extends Pessoa {
 
-    private String nome;
-    private String cpf;
+
     private double renda;
     private int idCliente;
     private boolean clienteAtivo;
-    private Conta conta;
+    private ContaComum conta;
 
     public Cliente(String nome) {
-        this.nome = nome;
-    }
-
-    public Cliente(String nome, String cpf) {
-        this(nome);
-        this.cpf = cpf;
+        super(nome);
     }
 
     public Cliente(String nome, String cpf, double renda) {
-        this(nome, cpf);
+        super(nome, cpf);
         this.renda = renda;
     }
 
@@ -32,26 +26,11 @@ public class Cliente {
         this(nome, cpf, renda, idCliente);
         this.clienteAtivo = clienteAtivo;
     }
-    public Cliente(String nome, String cpf, double renda, Conta conta) {
+    public Cliente(String nome, String cpf, double renda, ContaComum conta) {
         this(nome, cpf, renda);
         this.conta = conta;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
 
     public double getRenda() {
         return renda;
@@ -81,19 +60,24 @@ public class Cliente {
         this.clienteAtivo = clienteAtivo;
     }
 
-    public void setConta(Conta conta) {
+    public void setConta(ContaComum conta) {
         this.conta = conta;
+    }
+
+    @Override
+    public void imprimir() {
+        super.imprimir();
     }
 
     @Override
     public String toString() {
         return
-                "\nExibindo o extrato:\n\n" +
-                "Cliente: " + getNome() +
-                "\nCPF: " + getCpf() +
+                super.toString() +
                 "\nRenda: R$ " + getRenda() + "\n" +
                 (getRenda() > 5000 ? "Empréstimo permitido." : "") +
                 "\nID do cliente: " + getIdCliente() +
                 (conta != null ? conta.toString() : "\nSem conta cadastrada");
     }
+
+
 }
